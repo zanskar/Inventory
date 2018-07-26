@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Inventory</string>
+    <string name="app_name">All Products Inventory</string>
 
     <!-- Label for overflow menu option that inserts fake product data into the app [CHAR LIMIT=20] -->
     <string name="action_insert_dummy_data">Insert Dummy Data</string>
@@ -74,10 +74,10 @@
     <string name="category_supplier">Supplier</string>
 
     <!-- Text hint for product name field in the editor [CHAR LIMIT=30] -->
-    <string name="product_name">Name</string>
+    <string name="product_name">Product name</string>
 
     <!-- Text hint for product price field in the editor [CHAR LIMIT=30] -->
-    <string name="product_price">Price</string>
+    <string name="product_price">Product price</string>
 
     <!-- Label for price unit in the editor [CHAR LIMIT=30] -->
     <string name="unit_product_price">€</string>
@@ -103,7 +103,7 @@
 
     <string name="minus">-</string>
     <string name="plus">+</string>
-    <string name="call_supplier">Call Supplier</string>
+    <string name="call_supplier">Order</string>
     <string name="sale">Sale</string>
 
     <string name="unit"> unit</string>
