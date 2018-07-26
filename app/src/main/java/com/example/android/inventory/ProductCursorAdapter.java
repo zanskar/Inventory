@@ -81,6 +81,26 @@ public class ProductCursorAdapter extends CursorAdapter {
         priceTextView.setText(price);
         quantityTextView.setText(quantity);
 
+        Button sale_Button = (Button) view.findViewById(R.id.sale_Button);
+        sale_Button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                    //Get The Current Product Quantity From Text
+                    String quantityStr = quantityTextView.getText().toString().trim();
+                    //Convert Quantity To Number
+                    int quantity = Integer.parseInt(quantityStr);
+                    //Assert That Quantity Can't be negative
+                    if (quantity > 0) {
+                        //Update The Current Quantity and convert it to String
+                        String newQuantity = String.valueOf(quantity - 1);
+                        //Update The Text UI
+                        quantityTextView.setText(newQuantity);
+                    } else {
+                    }
+                }
+
+        });
+
     }
 }
 

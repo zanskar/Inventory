@@ -2,6 +2,7 @@ package com.example.android.inventory;
 
 import android.app.AlertDialog;
 import android.app.LoaderManager;
+import android.content.ContentUris;
 import android.content.ContentValues;
 import android.content.CursorLoader;
 import android.content.DialogInterface;
@@ -228,6 +229,7 @@ public class EditorActivity extends AppCompatActivity implements
         }
 
     }
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
