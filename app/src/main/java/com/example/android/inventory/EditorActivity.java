@@ -17,11 +17,12 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
 import com.example.android.inventory.data.ProductContract;
-import com.example.android.pets.R;
+
 
 /**
  * Allows user to create a new product or edit an existing one.
@@ -52,6 +53,10 @@ public class EditorActivity extends AppCompatActivity implements
 
     /** Boolean flag that keeps track of whether the product has been edited (true) or not (false) */
     private boolean mProductHasChanged = false;
+
+    private Button callSupplier;
+    private Button productPlus;
+    private Button productMin;
 
     /**
      * OnTouchListener that listens for any user touches on a View, implying that they are modifying
@@ -99,7 +104,9 @@ public class EditorActivity extends AppCompatActivity implements
         mQuantityEditText = (EditText) findViewById(R.id.edit_product_quantity);
         mSupplierNameEditText = (EditText) findViewById(R.id.edit_supplier_name);
         mSupplierPhoneEditText = (EditText) findViewById(R.id.edit_supplier_phone);
-
+        this.callSupplier = findViewById(R.id.callSupplier);
+        this.productPlus = findViewById(R.id.productPlus);
+        this.productMin = findViewById(R.id.productMin);
 
         // Setup OnTouchListeners on all the input fields, so we can determine if the user
         // has touched or modified them. This will let us know if there are unsaved changes
@@ -109,8 +116,50 @@ public class EditorActivity extends AppCompatActivity implements
         mQuantityEditText.setOnTouchListener(mTouchListener);
         mSupplierNameEditText.setOnTouchListener(mTouchListener);
         mSupplierPhoneEditText.setOnTouchListener(mTouchListener);
+        this.callSupplier.setOnTouchListener(mTouchListener);
+        this.productPlus.setOnTouchListener(mTouchListener);
+        this.productMin.setOnTouchListener(mTouchListener);
+
     }
 
+    //Call Supplier Using Intent
+
+    public void callSupplierButton(View view) {
+        Intent intent = new Intent(Intent.ACTION_DIAL);
+        intent.setData(Uri.parse("tel:" + mSupplierPhoneEditText.getText().toString().trim()));
+        if (intent.resolveActivity(getPackageManager()) != null) {
+            startActivity(intent);
+        }
+    }
+
+    //Product Quantity plus one
+    public void plusOneQuantity(View view) {
+        //Get The Current Product Quantity From Edit Text
+        String quantityStr = mQuantityEditText.getText().toString().trim();
+        //Convert Quantity To Number
+        int quantity = Integer.parseInt(quantityStr);
+        //Convert The New Quantity after add one to it to String
+        String newQuantity = String.valueOf(quantity + 1);
+        //Update The EditText UI
+        mQuantityEditText.setText(newQuantity);
+    }
+
+    //Product Quantity minus one
+    public void minOneQuantity(View view) {
+        //Get The Current Product Quantity From Edit Text
+        String quantityStr = mQuantityEditText.getText().toString().trim();
+        //Convert Quantity To Number
+        int quantity = Integer.parseInt(quantityStr);
+        //Assert That Quantity Can't be negative
+        if (quantity > 0) {
+            //Update The Current Quantity and convert it to String
+            String newQuantity = String.valueOf(quantity - 1);
+            //Update The EditText UI
+            mQuantityEditText.setText(newQuantity);
+        } else {
+            Toast.makeText(this, "You can't order a negative product", Toast.LENGTH_SHORT).show();
+        }
+    }
 
     /**
      * Get user input from editor and save product into database.
@@ -125,7 +174,7 @@ public class EditorActivity extends AppCompatActivity implements
         String supplierPhoneString = mSupplierPhoneEditText.getText().toString().trim();
 
 
-        // Check if this is supposed to be a new book
+        // Check if this is supposed to be a new product
         // and check if all the fields in the editor are blank
         if (mCurrentProductUri == null &&
                 TextUtils.isEmpty(productNameString) && TextUtils.isEmpty(priceString) &&
@@ -177,6 +226,7 @@ public class EditorActivity extends AppCompatActivity implements
                         Toast.LENGTH_SHORT).show();
             }
         }
+
     }
 
     @Override
@@ -422,4 +472,4 @@ public class EditorActivity extends AppCompatActivity implements
         // Close the activity
         finish();
     }
-}
+   }

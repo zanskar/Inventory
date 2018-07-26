@@ -1,14 +1,21 @@
 package com.example.android.inventory;
+import android.content.ContentUris;
+import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
+import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.CursorAdapter;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.android.inventory.data.ProductContract;
-import com.example.android.pets.R;
+import com.example.android.inventory.R;
+
+import java.sql.RowId;
 
 
 /**
@@ -57,8 +64,8 @@ public class ProductCursorAdapter extends CursorAdapter {
     public void bindView(View view, Context context, Cursor cursor) {
         // Find individual views that we want to modify in the list item layout
         TextView nameTextView = (TextView) view.findViewById(R.id.name);
-        TextView summaryTextView = (TextView) view.findViewById(R.id.summary);
-
+        final TextView priceTextView = (TextView) view.findViewById(R.id.price);
+        final TextView quantityTextView = (TextView) view.findViewById(R.id.quantity);
         // Find the columns of products attributes that we're interested in
         int productNameColumnIndex = cursor.getColumnIndex(ProductContract.ProductEntry.COLUMN_PRODUCT_NAME);
         int priceColumnIndex = cursor.getColumnIndex(ProductContract.ProductEntry.COLUMN_PRODUCT_PRICE);
@@ -71,8 +78,9 @@ public class ProductCursorAdapter extends CursorAdapter {
 
         // Update the TextViews with the attributes for the current product
         nameTextView.setText(productName);
-        summaryTextView.setText(price);
-        summaryTextView.setText(quantity);
+        priceTextView.setText(price);
+        quantityTextView.setText(quantity);
+
     }
 }
 

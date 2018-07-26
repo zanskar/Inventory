@@ -20,7 +20,7 @@ import android.support.design.widget.FloatingActionButton;
 import com.example.android.inventory.data.ProductContract;
 import com.example.android.inventory.data.ProductContract.ProductEntry;
 import com.example.android.inventory.data.ProductProvider;
-import com.example.android.pets.R;
+import com.example.android.inventory.R;
 
 /**
  * Displays list of products that were entered and stored in the app.
@@ -99,7 +99,7 @@ public class CatalogActivity extends AppCompatActivity implements
         values.put(ProductContract.ProductEntry.COLUMN_PRODUCT_PRICE, 10);
         values.put(ProductContract.ProductEntry.COLUMN_PRODUCT_QUANTITY, 1);
         values.put(ProductContract.ProductEntry.COLUMN_SUPPLIER_NAME, "Mr X");
-        values.put(ProductContract.ProductEntry.COLUMN_SUPPLIER_PHONE, "56 00 56 00");
+        values.put(ProductContract.ProductEntry.COLUMN_SUPPLIER_PHONE, "56 00 56 00 97");
 
     // Insert a new row for my product test in the database, returning the ID of that new row.
     // The first argument for db.insert() is the products table name.
