@@ -65,7 +65,7 @@
     <string name="cancel">Cancel</string>
 
     <!-- Label for overview category of attributes in the editor [CHAR LIMIT=30] -->
-    <string name="category_overview">Overview</string>
+    <string name="category_title">Product</string>
 
     <!-- Label for price information in the editor [CHAR LIMIT=30] -->
     <string name="category_price">Price</string>
@@ -94,10 +94,25 @@
     <!-- Text hint for supplier phone field in the editor [CHAR LIMIT=30] -->
     <string name="supplier_phone">Phone number</string>
 
-
-    <!-- Toast message if quantity is <0 [CHAR LIMIT=30] -->
+    <!-- Toast message if quantity is <0  -->
     <string name="negative_quantity">Quantity cannot be inferior to zero.</string>
 
+    <!-- Toast message empty name -->
+    <string name="empty_name">Please fill up the product name field.</string>
+
+    <!-- Toast message empty price -->
+    <string name="empty_price">Please fill up the product price field.</string>
+
+    <!-- Toast message empty quantity  -->
+    <string name="empty_quantity">Please fill up the product quantity field.</string>
+
+    <!-- Toast message empty supplier name -->
+    <string name="empty_supplier_name">Please fill up the product supplier name field.</string>
+
+    <!-- Toast message empty supplier phone -->
+    <string name="empty_supplier_phone">Please fill up the product supplier name field.</string>
+
+    <!-- Buttons labels -->
     <string name="minus">-</string>
     <string name="plus">+</string>
     <string name="call_supplier">Order</string>

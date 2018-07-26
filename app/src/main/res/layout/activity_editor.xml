@@ -16,7 +16,7 @@
         <!-- Label -->
         <TextView
             style="@style/TitleStyle"
-            android:text="@string/category_overview" />
+            android:text="@string/category_title" />
 
         <!-- Input fields -->
         <LinearLayout

@@ -98,12 +98,13 @@ public class ProductCursorAdapter extends CursorAdapter {
                     }
                     else
                         {
-                            Toast.makeText(this, getString(R.string.negative_quantity), Toast.LENGTH_LONG).show();
 
                     }
                 }
 
+
         });
+
 
     }
 }

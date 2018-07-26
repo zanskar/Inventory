@@ -152,7 +152,8 @@ public class EditorActivity extends AppCompatActivity implements
         String newQuantity = String.valueOf(quantity + 1);
         //Update The EditText UI
         mQuantityEditText.setText(newQuantity);
-    }
+
+        }
 
     //Product Quantity minus one
     public void minOneQuantity(View view) {
@@ -182,7 +183,7 @@ public class EditorActivity extends AppCompatActivity implements
         String quantityString = mQuantityEditText.getText().toString().trim();
         String supplierNameString = mSupplierNameEditText.getText().toString().trim();
         String supplierPhoneString = mSupplierPhoneEditText.getText().toString().trim();
-
+        // Read from input fields
 
         // Check if this is supposed to be a new product
         // and check if all the fields in the editor are blank
@@ -194,7 +195,7 @@ public class EditorActivity extends AppCompatActivity implements
             return;
         }
 
-// Create a ContentValues object where column names are the keys,
+        // Create a ContentValues object where column names are the keys,
         // and the products attributes are the values.
         ContentValues values = new ContentValues();
         values.put(ProductContract.ProductEntry.COLUMN_PRODUCT_NAME, productNameString);
@@ -209,12 +210,28 @@ public class EditorActivity extends AppCompatActivity implements
             // This is a NEW product, so insert a new product into the provider,
             // returning the content URI for the new product.
             Uri newUri = getContentResolver().insert(ProductContract.ProductEntry.CONTENT_URI, values);
+        //Check if the fields in the editor are blank and show corresponding toast message
 
-            if ((newUri != null) &&(TextUtils.isEmpty(productNameString) || TextUtils.isEmpty(priceString) ||
-                    TextUtils.isEmpty(quantityString) || TextUtils.isEmpty(supplierNameString) || TextUtils.isEmpty(supplierPhoneString))) {
-                Toast.makeText(this, getString(R.string.empty_field), Toast.LENGTH_SHORT).show(); }
-                else {
-            }
+            if ((newUri != null) &&(TextUtils.isEmpty(productNameString))){
+                Toast.makeText(this, getString(R.string.empty_name), Toast.LENGTH_LONG).show(); }
+                                else {
+                                    }
+            if ((newUri != null) &&(TextUtils.isEmpty(priceString))){
+            Toast.makeText(this, getString(R.string.empty_price), Toast.LENGTH_LONG).show(); }
+                                else {
+                                    }
+            if ((newUri != null) &&(TextUtils.isEmpty(quantityString))){
+            Toast.makeText(this, getString(R.string.empty_quantity), Toast.LENGTH_LONG).show(); }
+                                else {
+                                    }
+            if ((newUri != null) &&(TextUtils.isEmpty(supplierNameString))){
+            Toast.makeText(this, getString(R.string.empty_supplier_name), Toast.LENGTH_LONG).show(); }
+                                else {
+                                    }
+            if ((newUri != null) &&(TextUtils.isEmpty(supplierPhoneString))){
+            Toast.makeText(this, getString(R.string.empty_supplier_phone), Toast.LENGTH_LONG).show(); }
+                                else {
+                                    }
             // Show a toast message depending on whether or not the insertion was successful.
             if (newUri == null) {
                 // If the new content URI is null, then there was an error with insertion.
