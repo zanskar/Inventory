@@ -167,7 +167,7 @@ public class EditorActivity extends AppCompatActivity implements
             //Update The EditText UI
             mQuantityEditText.setText(newQuantity);
         } else {
-            Toast.makeText(this, "You can't order a negative product", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, getString(R.string.negative_quantity), Toast.LENGTH_LONG).show();
         }
     }
 
@@ -193,6 +193,7 @@ public class EditorActivity extends AppCompatActivity implements
             // No need to create ContentValues and no need to do any ContentProvider operations.
             return;
         }
+
 // Create a ContentValues object where column names are the keys,
         // and the products attributes are the values.
         ContentValues values = new ContentValues();
@@ -202,12 +203,18 @@ public class EditorActivity extends AppCompatActivity implements
         values.put(ProductContract.ProductEntry.COLUMN_SUPPLIER_NAME, supplierNameString);
         values.put(ProductContract.ProductEntry.COLUMN_SUPPLIER_PHONE, supplierPhoneString);
 
+
         // Determine if this is a new or existing product by checking if mCurrentProductUri is null or not
         if (mCurrentProductUri == null) {
             // This is a NEW product, so insert a new product into the provider,
             // returning the content URI for the new product.
             Uri newUri = getContentResolver().insert(ProductContract.ProductEntry.CONTENT_URI, values);
 
+            if ((newUri != null) &&(TextUtils.isEmpty(productNameString) || TextUtils.isEmpty(priceString) ||
+                    TextUtils.isEmpty(quantityString) || TextUtils.isEmpty(supplierNameString) || TextUtils.isEmpty(supplierPhoneString))) {
+                Toast.makeText(this, getString(R.string.empty_field), Toast.LENGTH_SHORT).show(); }
+                else {
+            }
             // Show a toast message depending on whether or not the insertion was successful.
             if (newUri == null) {
                 // If the new content URI is null, then there was an error with insertion.

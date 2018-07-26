@@ -25,16 +25,19 @@
     <!-- Label for editor overflow menu option that deletes the current product [CHAR LIMIT=20] -->
     <string name="action_delete">Delete</string>
 
+    <!-- Toast message for empty field-->
+    <string name="empty_field">A field is missing.Please fill up all fields</string>
+
     <!-- Toast message in editor when new product has been successfully inserted [CHAR LIMIT=NONE] -->
     <string name="editor_insert_product_successful">Product saved</string>
 
-    <!-- Toast message in editor when new pet has failed to be inserted [CHAR LIMIT=NONE] -->
+    <!-- Toast message in editor when new product has failed to be inserted [CHAR LIMIT=NONE] -->
     <string name="editor_insert_product_failed">Error with saving product</string>
 
-    <!-- Toast message in editor when current pet was successfully updated [CHAR LIMIT=NONE] -->
+    <!-- Toast message in editor when current product was successfully updated [CHAR LIMIT=NONE] -->
     <string name="editor_update_product_successful">Product updated</string>
 
-    <!-- Toast message in editor when current pet has failed to be updated [CHAR LIMIT=NONE] -->
+    <!-- Toast message in editor when current product has failed to be updated [CHAR LIMIT=NONE] -->
     <string name="editor_update_product_failed">Error with updating product</string>
 
     <!-- Dialog message when user is leaving editor but hasn't saved changes [CHAR LIMIT=NONE] -->
@@ -91,11 +94,9 @@
     <!-- Text hint for supplier phone field in the editor [CHAR LIMIT=30] -->
     <string name="supplier_phone">Phone number</string>
 
-    <!-- Toast message if quantity empty [CHAR LIMIT=30] -->
 
-    <!-- Toast message if quantity <0 [CHAR LIMIT=30] -->
-
-    <!-- Toast message if quantity has invalid number [CHAR LIMIT=30] -->
+    <!-- Toast message if quantity is <0 [CHAR LIMIT=30] -->
+    <string name="negative_quantity">Quantity cannot be inferior to zero.</string>
 
     <string name="minus">-</string>
     <string name="plus">+</string>

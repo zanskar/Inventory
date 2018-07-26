@@ -95,7 +95,11 @@ public class ProductCursorAdapter extends CursorAdapter {
                         String newQuantity = String.valueOf(quantity - 1);
                         //Update The Text UI
                         quantityTextView.setText(newQuantity);
-                    } else {
+                    }
+                    else
+                        {
+                            Toast.makeText(this, getString(R.string.negative_quantity), Toast.LENGTH_LONG).show();
+
                     }
                 }
 
