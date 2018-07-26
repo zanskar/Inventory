@@ -109,6 +109,15 @@ public class EditorActivity extends AppCompatActivity implements
         this.productPlus = findViewById(R.id.productPlus);
         this.productMin = findViewById(R.id.productMin);
 
+        if (mCurrentProductUri == null) {
+            productPlus.setVisibility(View.GONE);
+            productMin.setVisibility(View.GONE);
+        }else {
+            productPlus.setVisibility(View.VISIBLE);
+            productMin.setVisibility(View.VISIBLE);
+        }
+
+
         // Setup OnTouchListeners on all the input fields, so we can determine if the user
         // has touched or modified them. This will let us know if there are unsaved changes
         // or not, if the user tries to leave the editor without saving.
@@ -180,7 +189,7 @@ public class EditorActivity extends AppCompatActivity implements
         if (mCurrentProductUri == null &&
                 TextUtils.isEmpty(productNameString) && TextUtils.isEmpty(priceString) &&
                 TextUtils.isEmpty(quantityString) && TextUtils.isEmpty(supplierNameString) && TextUtils.isEmpty(supplierPhoneString)) {
-            // Since no fields were modified, we can return early without creating a new book.
+            // Since no fields were modified, we can return early without creating a new product.
             // No need to create ContentValues and no need to do any ContentProvider operations.
             return;
         }

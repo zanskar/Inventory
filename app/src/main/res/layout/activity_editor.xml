@@ -161,6 +161,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:onClick="callSupplierButton"
+                android:layout_below="@id/edit_supplier_phone"
                 android:text="@string/call_supplier"
                 android:textAllCaps="false" />
         </RelativeLayout>
