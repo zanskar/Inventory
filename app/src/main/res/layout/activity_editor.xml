@@ -15,7 +15,7 @@
 
         <!-- Label -->
         <TextView
-            style="@style/CategoryStyle"
+            style="@style/TitleStyle"
             android:text="@string/category_overview" />
 
         <!-- Input fields -->
@@ -89,12 +89,12 @@
             android:layout_weight="2"
             android:paddingLeft="4dp">
 
-        <!-- Quantity field -->
-        <EditText
-            android:id="@+id/edit_product_quantity"
-            style="@style/EditorFieldStyle"
-            android:hint="@string/product_quantity"
-            android:inputType="number" />
+            <!-- Quantity field -->
+            <EditText
+                android:id="@+id/edit_product_quantity"
+                style="@style/EditorFieldStyle"
+                android:hint="@string/product_quantity"
+                android:inputType="number" />
         </RelativeLayout>
     </LinearLayout>
     <!-- Buttons plus and minus  -->

@@ -92,21 +92,14 @@
     <string name="supplier_phone">Phone number</string>
 
     <!-- Toast message if quantity empty [CHAR LIMIT=30] -->
-    <string name="quantity_cannot_be_empty">Quantity cannot be empty</string>
 
     <!-- Toast message if quantity <0 [CHAR LIMIT=30] -->
-    <string name="quantity_cannot_be_less_0">Quantity cannot be empty</string>
 
     <!-- Toast message if quantity has invalid number [CHAR LIMIT=30] -->
-    <string name="quantity_invalid_number">Quantity invalid number</string>
-    <string name="no_more_stock">Sorry, we have no more stock</string>
 
     <string name="minus">-</string>
     <string name="plus">+</string>
     <string name="call_supplier">Order</string>
     <string name="sale">Sale</string>
-
-    <string name="unit"> unit</string>
-    <string name="units"> units</string>
 
 </resources>

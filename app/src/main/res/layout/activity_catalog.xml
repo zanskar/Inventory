@@ -1,6 +1,5 @@
 <!-- Layout for the list of products -->
-<RelativeLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -9,7 +8,7 @@
     <ListView
         android:id="@+id/list"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
+        android:layout_height="match_parent" />
 
     <!-- Empty view for the list -->
     <RelativeLayout
@@ -26,7 +25,7 @@
             android:fontFamily="sans-serif-medium"
             android:paddingTop="16dp"
             android:text="@string/empty_view_title_text"
-            android:textAppearance="?android:textAppearanceMedium"/>
+            android:textAppearance="?android:textAppearanceMedium" />
 
         <TextView
             android:id="@+id/empty_subtitle_text"
@@ -38,7 +37,7 @@
             android:paddingTop="8dp"
             android:text="@string/empty_view_subtitle_text"
             android:textAppearance="?android:textAppearanceSmall"
-            android:textColor="#A2AAB0"/>
+            android:textColor="#A2AAB0" />
     </RelativeLayout>
 
     <android.support.design.widget.FloatingActionButton
@@ -48,5 +47,5 @@
         android:layout_alignParentBottom="true"
         android:layout_alignParentRight="true"
         android:layout_margin="@dimen/fab_margin"
-        android:src="@drawable/ic_add_product"/>
+        android:src="@drawable/ic_add_product" />
 </RelativeLayout>
