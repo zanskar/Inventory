@@ -7,7 +7,9 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
 import android.util.Log;
+import android.widget.Toast;
 
+import com.example.android.inventory.R;
 import com.example.android.inventory.data.ProductContract.ProductEntry;
 
 /**
@@ -131,17 +133,17 @@ public class ProductProvider extends ContentProvider {
             throw new IllegalArgumentException("Product requires a name");
         }
 
-        // Check that the price is >=0
+        // Check that the price is not null and is >=0
         Integer price = values.getAsInteger(ProductEntry.COLUMN_PRODUCT_PRICE);
-        if (price != null && price < 0) {
+        if ((price==null) ||(price < 0)) {
             throw new IllegalArgumentException("Product requires price >=0");
         }
-
-        // Check that the quantity is >=0
+        // Check that the quantity is not null and is >=0
         Integer quantity = values.getAsInteger(ProductEntry.COLUMN_PRODUCT_QUANTITY);
-        if (quantity != null && quantity < 0) {
-            throw new IllegalArgumentException("Product requires quantity >=0");
+        if ((quantity == null) || (quantity < 0)) {
+            throw new IllegalArgumentException("Product requires quantity");
         }
+
         // Check that the supplier name is not null
         String supplierName = values.getAsString(ProductEntry.COLUMN_SUPPLIER_NAME);
         if (supplierName == null) {
@@ -206,10 +208,10 @@ public class ProductProvider extends ContentProvider {
             }
         }
         // If the {@link ProductEntry#COLUMN_PRODUCT_PRICE} key is present,
-        // Check that the price is greater than or equal to 0 kg
+        // Check that the price is greater than or equal to 0
         if (values.containsKey(ProductEntry.COLUMN_PRODUCT_PRICE)) {
             Integer price = values.getAsInteger(ProductEntry.COLUMN_PRODUCT_PRICE);
-            if (price != null && price < 0) {
+            if (price == null || price < 0) {
                 throw new IllegalArgumentException("Product requires price >=0");
             }
         }
@@ -217,7 +219,7 @@ public class ProductProvider extends ContentProvider {
         // Check that the quantity is >=0
         if (values.containsKey(ProductEntry.COLUMN_PRODUCT_QUANTITY)) {
             Integer quantity = values.getAsInteger(ProductEntry.COLUMN_PRODUCT_QUANTITY);
-            if (quantity != null && quantity < 0) {
+            if (quantity == null || quantity < 0) {
                 throw new IllegalArgumentException("Product requires quantity >=0");
             }
         }

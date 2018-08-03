@@ -112,10 +112,21 @@
     <!-- Toast message empty supplier phone -->
     <string name="empty_supplier_phone">Please fill up the product supplier name field.</string>
 
+    <!-- Toast message sail failure -->
+    <string name="sale_failure_text">Quantity in stock could not be reduced.</string>
+
+    <!-- Toast message sail success-->
+    <string name="sale_success_text">Quantity in stock reduced.</string>
+
+    <!-- Toast message out of stock-->
+    <string name="sale_out">Out of stock.</string>
+
     <!-- Buttons labels -->
     <string name="minus">-</string>
     <string name="plus">+</string>
     <string name="call_supplier">Order</string>
     <string name="sale">Sale</string>
+    <string name="save">Save</string>
+
 
 </resources>

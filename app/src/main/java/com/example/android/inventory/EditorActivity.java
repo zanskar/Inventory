@@ -4,10 +4,12 @@ import android.app.AlertDialog;
 import android.app.LoaderManager;
 import android.content.ContentUris;
 import android.content.ContentValues;
+import android.content.Context;
 import android.content.CursorLoader;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.Loader;
+import android.content.res.Resources;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
@@ -20,6 +22,7 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.android.inventory.data.ProductContract;
@@ -54,10 +57,6 @@ public class EditorActivity extends AppCompatActivity implements
 
     /** Boolean flag that keeps track of whether the product has been edited (true) or not (false) */
     private boolean mProductHasChanged = false;
-
-    private Button callSupplier;
-    private Button productPlus;
-    private Button productMin;
 
     /**
      * OnTouchListener that listens for any user touches on a View, implying that they are modifying
@@ -105,17 +104,6 @@ public class EditorActivity extends AppCompatActivity implements
         mQuantityEditText = (EditText) findViewById(R.id.edit_product_quantity);
         mSupplierNameEditText = (EditText) findViewById(R.id.edit_supplier_name);
         mSupplierPhoneEditText = (EditText) findViewById(R.id.edit_supplier_phone);
-        this.callSupplier = findViewById(R.id.callSupplier);
-        this.productPlus = findViewById(R.id.productPlus);
-        this.productMin = findViewById(R.id.productMin);
-
-        if (mCurrentProductUri == null) {
-            productPlus.setVisibility(View.GONE);
-            productMin.setVisibility(View.GONE);
-        }else {
-            productPlus.setVisibility(View.VISIBLE);
-            productMin.setVisibility(View.VISIBLE);
-        }
 
 
         // Setup OnTouchListeners on all the input fields, so we can determine if the user
@@ -126,55 +114,62 @@ public class EditorActivity extends AppCompatActivity implements
         mQuantityEditText.setOnTouchListener(mTouchListener);
         mSupplierNameEditText.setOnTouchListener(mTouchListener);
         mSupplierPhoneEditText.setOnTouchListener(mTouchListener);
-        this.callSupplier.setOnTouchListener(mTouchListener);
-        this.productPlus.setOnTouchListener(mTouchListener);
-        this.productMin.setOnTouchListener(mTouchListener);
-
-    }
-
-    //Call Supplier Using Intent
-
-    public void callSupplierButton(View view) {
-        Intent intent = new Intent(Intent.ACTION_DIAL);
-        intent.setData(Uri.parse("tel:" + mSupplierPhoneEditText.getText().toString().trim()));
-        if (intent.resolveActivity(getPackageManager()) != null) {
-            startActivity(intent);
-        }
-    }
 
     //Product Quantity plus one
-    public void plusOneQuantity(View view) {
-        //Get The Current Product Quantity From Edit Text
-        String quantityStr = mQuantityEditText.getText().toString().trim();
-        //Convert Quantity To Number
-        int quantity = Integer.parseInt(quantityStr);
-        //Convert The New Quantity after add one to it to String
-        String newQuantity = String.valueOf(quantity + 1);
-        //Update The EditText UI
-        mQuantityEditText.setText(newQuantity);
 
+    Button plusOneQuantity = findViewById(R.id.productPlus);
+    final Button minOneQuantity = findViewById(R.id.productMin);
+    int qty = 0;
+        mQuantityEditText.setText(String.valueOf(qty));
+    //Set click listener on the increase button and increase the quantity
+    //according the adjustment factor, check for validation before changing data
+        plusOneQuantity.setOnClickListener(new View.OnClickListener() {
+        @Override
+        public void onClick(View view) {
+            int newQuantity = Integer.parseInt(mQuantityEditText.getText().toString().trim());
+            mQuantityEditText.setText(String.valueOf(newQuantity + 1));
         }
+    });
+        minOneQuantity.setOnClickListener(new View.OnClickListener() {
+        @Override
+        public void onClick(View view) {
+            int newQuantity = Integer.parseInt(mQuantityEditText.getText().toString().trim());
+            mQuantityEditText.setText(String.valueOf(newQuantity - 1));
+            if (newQuantity <= 1) {
+                minOneQuantity.setEnabled(false);
+            }
+        }
+    });
+        if (mCurrentProductUri == null) {
+            minOneQuantity.setVisibility(View.GONE);
+            plusOneQuantity.setVisibility(View.GONE);
+        }
+    //Set click listener on the button to call supplier
+        Button callSupplierButton = findViewById(R.id.callSupplier);
 
-    //Product Quantity minus one
-    public void minOneQuantity(View view) {
-        //Get The Current Product Quantity From Edit Text
-        String quantityStr = mQuantityEditText.getText().toString().trim();
-        //Convert Quantity To Number
-        int quantity = Integer.parseInt(quantityStr);
-        //Assert That Quantity Can't be negative
-        if (quantity > 0) {
-            //Update The Current Quantity and convert it to String
-            String newQuantity = String.valueOf(quantity - 1);
-            //Update The EditText UI
-            mQuantityEditText.setText(newQuantity);
-        } else {
-            Toast.makeText(this, getString(R.string.negative_quantity), Toast.LENGTH_LONG).show();
-        }
+        callSupplierButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String supplierPhoneString = mSupplierPhoneEditText.getText().toString().trim();
+                Intent intent = new Intent(Intent.ACTION_DIAL);
+                intent.setData(Uri.parse("tel:" + supplierPhoneString));
+                startActivity(intent);
+            }
+        });
+
+        //Set click listener on the button to save changes
+       /* Button saveBtn = findViewById(R.id.save_btn);
+        saveBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                saveProduct();
+                finish();
+            }
+*/
     }
-
-    /**
-     * Get user input from editor and save product into database.
-     */
+        /**
+         * Get user input from editor and save product into database.
+         */
     private void saveProduct() {
         // Read from input fields
         // Use trim to eliminate leading or trailing white space
@@ -212,24 +207,24 @@ public class EditorActivity extends AppCompatActivity implements
             Uri newUri = getContentResolver().insert(ProductContract.ProductEntry.CONTENT_URI, values);
         //Check if the fields in the editor are blank and show corresponding toast message
 
-            if ((newUri != null) &&(TextUtils.isEmpty(productNameString))){
-                Toast.makeText(this, getString(R.string.empty_name), Toast.LENGTH_LONG).show(); }
+            if (TextUtils.isEmpty(productNameString)){
+                Toast.makeText(this, getString(R.string.empty_name), Toast.LENGTH_SHORT).show(); }
                                 else {
                                     }
-            if ((newUri != null) &&(TextUtils.isEmpty(priceString))){
-            Toast.makeText(this, getString(R.string.empty_price), Toast.LENGTH_LONG).show(); }
+            if (TextUtils.isEmpty(priceString)){
+            Toast.makeText(this, getString(R.string.empty_price), Toast.LENGTH_SHORT).show(); }
                                 else {
                                     }
-            if ((newUri != null) &&(TextUtils.isEmpty(quantityString))){
-            Toast.makeText(this, getString(R.string.empty_quantity), Toast.LENGTH_LONG).show(); }
+            if ((TextUtils.isEmpty(quantityString))){
+            Toast.makeText(this, getString(R.string.empty_quantity), Toast.LENGTH_SHORT).show(); }
                                 else {
                                     }
-            if ((newUri != null) &&(TextUtils.isEmpty(supplierNameString))){
-            Toast.makeText(this, getString(R.string.empty_supplier_name), Toast.LENGTH_LONG).show(); }
+            if (TextUtils.isEmpty(supplierNameString)){
+            Toast.makeText(this, getString(R.string.empty_supplier_name), Toast.LENGTH_SHORT).show(); }
                                 else {
                                     }
-            if ((newUri != null) &&(TextUtils.isEmpty(supplierPhoneString))){
-            Toast.makeText(this, getString(R.string.empty_supplier_phone), Toast.LENGTH_LONG).show(); }
+            if (TextUtils.isEmpty(supplierPhoneString)){
+            Toast.makeText(this, getString(R.string.empty_supplier_phone), Toast.LENGTH_SHORT).show(); }
                                 else {
                                     }
             // Show a toast message depending on whether or not the insertion was successful.
@@ -262,7 +257,6 @@ public class EditorActivity extends AppCompatActivity implements
         }
 
     }
-
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {

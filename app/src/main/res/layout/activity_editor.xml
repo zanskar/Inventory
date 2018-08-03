@@ -164,6 +164,9 @@
                 android:layout_below="@id/edit_supplier_phone"
                 android:text="@string/call_supplier"
                 android:textAllCaps="false" />
+
+
+
         </RelativeLayout>
     </LinearLayout>
 </LinearLayout>

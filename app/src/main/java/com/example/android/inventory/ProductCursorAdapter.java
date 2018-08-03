@@ -2,6 +2,7 @@ package com.example.android.inventory;
 import android.content.ContentUris;
 import android.content.ContentValues;
 import android.content.Context;
+import android.content.res.Resources;
 import android.database.Cursor;
 import android.net.Uri;
 import android.view.LayoutInflater;
@@ -61,11 +62,12 @@ public class ProductCursorAdapter extends CursorAdapter {
      *                correct row.
      */
     @Override
-    public void bindView(View view, Context context, Cursor cursor) {
+    public void bindView(View view, final Context context, Cursor cursor) {
         // Find individual views that we want to modify in the list item layout
         TextView nameTextView = (TextView) view.findViewById(R.id.name);
         final TextView priceTextView = (TextView) view.findViewById(R.id.price);
         final TextView quantityTextView = (TextView) view.findViewById(R.id.quantity);
+        final Button sale_Button = view.findViewById(R.id.sale_Btn);
         // Find the columns of products attributes that we're interested in
         int productNameColumnIndex = cursor.getColumnIndex(ProductContract.ProductEntry.COLUMN_PRODUCT_NAME);
         int priceColumnIndex = cursor.getColumnIndex(ProductContract.ProductEntry.COLUMN_PRODUCT_PRICE);
@@ -81,31 +83,24 @@ public class ProductCursorAdapter extends CursorAdapter {
         priceTextView.setText(price);
         quantityTextView.setText(quantity);
 
-        Button sale_Button = (Button) view.findViewById(R.id.sale_Button);
+        sale_Button.setText(R.string.sale);
+
         sale_Button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                    //Get The Current Product Quantity From Text
-                    String quantityStr = quantityTextView.getText().toString().trim();
-                    //Convert Quantity To Number
-                    int quantity = Integer.parseInt(quantityStr);
-                    //Assert That Quantity Can't be negative
-                    if (quantity > 0) {
-                        //Update The Current Quantity and convert it to String
-                        String newQuantity = String.valueOf(quantity - 1);
-                        //Update The Text UI
-                        quantityTextView.setText(newQuantity);
-                    }
-                    else
-                        {
-
-                    }
+                int updatedQuantity = Integer.parseInt(quantityTextView.getText().toString().trim());
+                if (updatedQuantity > 0) {
+                    quantityTextView.setText(String.valueOf(updatedQuantity - 1));
                 }
-
-
+                if (updatedQuantity <= 0) {
+                    sale_Button.setEnabled(false);
+                    Toast.makeText(context, "Out of stock", Toast.LENGTH_SHORT).show();
+                }
+                ContentValues values = new ContentValues();
+                values.put(ProductContract.ProductEntry.COLUMN_PRODUCT_QUANTITY, updatedQuantity);
+            }
         });
 
-
     }
-}
 
+}

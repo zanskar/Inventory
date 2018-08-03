@@ -77,7 +77,7 @@
     </LinearLayout>
 
     <Button
-        android:id="@+id/sale_Button"
+        android:id="@+id/sale_Btn"
         style="@style/SaleButtonStyle"
         android:layout_marginEnd="@dimen/marginSale"
         android:focusable="false"
