@@ -1,10 +1,7 @@
 package com.example.android.inventory;
-import android.content.ContentUris;
 import android.content.ContentValues;
 import android.content.Context;
-import android.content.res.Resources;
 import android.database.Cursor;
-import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,9 +11,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.android.inventory.data.ProductContract;
-import com.example.android.inventory.R;
-
-import java.sql.RowId;
 
 
 /**

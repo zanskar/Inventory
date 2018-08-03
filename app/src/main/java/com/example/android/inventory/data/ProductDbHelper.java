@@ -41,7 +41,7 @@ import android.util.Log;
                     + ProductContract.ProductEntry.COLUMN_PRODUCT_PRICE + " INTEGER NOT NULL, "
                     + ProductContract.ProductEntry.COLUMN_PRODUCT_QUANTITY + " INTEGER NOT NULL, "
                     + ProductContract.ProductEntry.COLUMN_SUPPLIER_NAME + " TEXT NOT NULL, "
-                    + ProductContract.ProductEntry.COLUMN_SUPPLIER_PHONE + " TEXT);";
+                    + ProductContract.ProductEntry.COLUMN_SUPPLIER_PHONE + " TEXT NOT NULL);";
 
             // Execute the SQL statement
             db.execSQL(SQL_CREATE_PRODUCTS_TABLE);

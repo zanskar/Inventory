@@ -183,29 +183,4 @@ public class CatalogActivity extends AppCompatActivity implements
             // Callback called when the data needs to be deleted
             mCursorAdapter.swapCursor(null);
         }
-    public void sale_Button(long productId, int quantity) {
-
-        // Decrement item quantity
-        if (quantity >= 1) {
-            quantity--;
-            // Construct new uri and content values
-            Uri updateUri = ContentUris.withAppendedId(ProductEntry.CONTENT_URI, productId);
-            ContentValues values = new ContentValues();
-            values.put(ProductEntry.COLUMN_PRODUCT_QUANTITY, quantity);
-            int rowsUpdated = getContentResolver().update(
-                    updateUri,
-                    values,
-                    null,
-                    null);
-            if (rowsUpdated == 1) {
-                Toast.makeText(this, R.string.editor_update_product_successful, Toast.LENGTH_SHORT).show();
-            } else {
-                Toast.makeText(this, R.string.editor_update_product_failed, Toast.LENGTH_SHORT).show();
-            }
-
-        } else {
-            //  Out of stock
-            Toast.makeText(this, R.string.sale_out, Toast.LENGTH_LONG).show();
-        }
-    }
 }
