@@ -2,7 +2,9 @@ package com.example.android.inventory;
 
 import android.app.AlertDialog;
 import android.app.LoaderManager;
+import android.content.ContentUris;
 import android.content.ContentValues;
+import android.content.Context;
 import android.content.CursorLoader;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -30,6 +32,7 @@ import com.example.android.inventory.data.ProductContract;
 public class EditorActivity extends AppCompatActivity implements
         LoaderManager.LoaderCallbacks<Cursor> {
 
+    private Context mContext;
     /**
      * Identifier for the product data loader
      */
@@ -131,8 +134,9 @@ public class EditorActivity extends AppCompatActivity implements
 
         Button plusOneQuantity = findViewById(R.id.productPlus);
         final Button minOneQuantity = findViewById(R.id.productMin);
-        int qty = 0;
+        final int qty = 0;
         mQuantityEditText.setText(String.valueOf(qty));
+
         //Set click listener on the increase button and increase the quantity
         //according the adjustment factor, check for validation before changing data
         plusOneQuantity.setOnClickListener(new View.OnClickListener() {
@@ -140,6 +144,10 @@ public class EditorActivity extends AppCompatActivity implements
             public void onClick(View view) {
                 int newQuantity = Integer.parseInt(mQuantityEditText.getText().toString().trim());
                 mQuantityEditText.setText(String.valueOf(newQuantity + 1));
+                Uri newUri = ContentUris.withAppendedId(ProductContract.ProductEntry.CONTENT_URI, id);
+                ContentValues values = new ContentValues();
+                values.put(ProductContract.ProductEntry.COLUMN_PRODUCT_QUANTITY, newQuantity + 1);
+                mContext.getContentResolver().update(newUri, values, null, null);
             }
         });
         minOneQuantity.setOnClickListener(new View.OnClickListener() {
@@ -147,6 +155,10 @@ public class EditorActivity extends AppCompatActivity implements
             public void onClick(View view) {
                 int newQuantity = Integer.parseInt(mQuantityEditText.getText().toString().trim());
                 mQuantityEditText.setText(String.valueOf(newQuantity - 1));
+                Uri newUri = ContentUris.withAppendedId(ProductContract.ProductEntry.CONTENT_URI, id);
+                ContentValues values = new ContentValues();
+                values.put(ProductContract.ProductEntry.COLUMN_PRODUCT_QUANTITY, newQuantity - 1);
+                mContext.getContentResolver().update(newUri, values, null, null);
                 if (newQuantity <= 1) {
                     minOneQuantity.setEnabled(false);
                 }
@@ -210,25 +222,11 @@ public class EditorActivity extends AppCompatActivity implements
             Uri newUri = getContentResolver().insert(ProductContract.ProductEntry.CONTENT_URI, values);
             //Check if the fields in the editor are blank and show corresponding toast message
 
-            if (TextUtils.isEmpty(productNameString)) {
-                Toast.makeText(this, getString(R.string.empty_name), Toast.LENGTH_SHORT).show();
-            } else {
-            }
-            if (TextUtils.isEmpty(priceString)) {
-                Toast.makeText(this, getString(R.string.empty_price), Toast.LENGTH_SHORT).show();
-            } else {
-            }
-            if ((TextUtils.isEmpty(quantityString))) {
-                Toast.makeText(this, getString(R.string.empty_quantity), Toast.LENGTH_SHORT).show();
-            } else {
-            }
-            if (TextUtils.isEmpty(supplierNameString)) {
-                Toast.makeText(this, getString(R.string.empty_supplier_name), Toast.LENGTH_SHORT).show();
-            } else {
-            }
-            if (TextUtils.isEmpty(supplierPhoneString)) {
-                Toast.makeText(this, getString(R.string.empty_supplier_phone), Toast.LENGTH_SHORT).show();
-            } else {
+            if ((TextUtils.isEmpty(productNameString)) || (TextUtils.isEmpty(priceString)) || ((TextUtils.isEmpty(quantityString))) || (TextUtils.isEmpty(supplierNameString)) || (TextUtils.isEmpty(supplierPhoneString)))
+             {
+                 Toast.makeText(this, getString(R.string.empty_field),
+                         Toast.LENGTH_SHORT).show();
+                 return;
             }
             // Show a toast message depending on whether or not the insertion was successful.
             if (newUri == null) {
@@ -245,6 +243,14 @@ public class EditorActivity extends AppCompatActivity implements
             // and pass in the new ContentValues. Pass in null for the selection and selection args
             // because mCurrentProductUri will already identify the correct row in the database that
             // we want to modify.
+
+            if ((TextUtils.isEmpty(productNameString)) || (TextUtils.isEmpty(priceString)) || ((TextUtils.isEmpty(quantityString))) || (TextUtils.isEmpty(supplierNameString)) || (TextUtils.isEmpty(supplierPhoneString)))
+            {
+                Toast.makeText(this, getString(R.string.empty_field),
+                        Toast.LENGTH_SHORT).show();
+                return;
+            }
+
             int rowsAffected = getContentResolver().update(mCurrentProductUri, values, null, null);
 
             // Show a toast message depending on whether or not the update was successful.
@@ -374,6 +380,7 @@ public class EditorActivity extends AppCompatActivity implements
                 null,                   // No selection clause
                 null,                   // No selection arguments
                 null);                  // Default sort order
+
     }
 
     @Override

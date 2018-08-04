@@ -97,21 +97,6 @@
     <!-- Toast message if quantity is <0  -->
     <string name="negative_quantity">Quantity cannot be inferior to zero.</string>
 
-    <!-- Toast message empty name -->
-    <string name="empty_name">Please fill up the product name field.</string>
-
-    <!-- Toast message empty price -->
-    <string name="empty_price">Please fill up the product price field.</string>
-
-    <!-- Toast message empty quantity  -->
-    <string name="empty_quantity">Please fill up the product quantity field.</string>
-
-    <!-- Toast message empty supplier name -->
-    <string name="empty_supplier_name">Please fill up the product supplier name field.</string>
-
-    <!-- Toast message empty supplier phone -->
-    <string name="empty_supplier_phone">Please fill up the product supplier name field.</string>
-
     <!-- Toast message sail failure -->
     <string name="sale_failure_text">Quantity in stock could not be reduced.</string>
 

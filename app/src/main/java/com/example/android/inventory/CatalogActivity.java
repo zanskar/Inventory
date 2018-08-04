@@ -167,8 +167,6 @@ public class CatalogActivity extends AppCompatActivity implements
                 ProductContract.ProductEntry.COLUMN_PRODUCT_NAME,
                 ProductContract.ProductEntry.COLUMN_PRODUCT_PRICE,
                 ProductContract.ProductEntry.COLUMN_PRODUCT_QUANTITY,
-                ProductContract.ProductEntry.COLUMN_SUPPLIER_NAME,
-                ProductContract.ProductEntry.COLUMN_SUPPLIER_PHONE,
         };
 
         // This loader will execute the ContentProvider's query method on a background thread
