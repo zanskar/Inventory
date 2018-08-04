@@ -30,28 +30,44 @@ import com.example.android.inventory.data.ProductContract;
 public class EditorActivity extends AppCompatActivity implements
         LoaderManager.LoaderCallbacks<Cursor> {
 
-    /** Identifier for the product data loader */
+    /**
+     * Identifier for the product data loader
+     */
     private static final int EXISTING_PRODUCT_LOADER = 0;
 
-    /** Content URI for the existing product (null if it's a new product) */
+    /**
+     * Content URI for the existing product (null if it's a new product)
+     */
     private Uri mCurrentProductUri;
 
-    /** EditText field to enter the product's name */
+    /**
+     * EditText field to enter the product's name
+     */
     private EditText mProductNameEditText;
 
-    /** EditText field to enter the product's price */
+    /**
+     * EditText field to enter the product's price
+     */
     private EditText mPriceEditText;
 
-    /** EditText field to enter the product's quantity */
+    /**
+     * EditText field to enter the product's quantity
+     */
     private EditText mQuantityEditText;
 
-    /** EditText field to enter the product's supplier name */
+    /**
+     * EditText field to enter the product's supplier name
+     */
     private EditText mSupplierNameEditText;
 
-    /** EditText field to enter the product's supplier phone */
+    /**
+     * EditText field to enter the product's supplier phone
+     */
     private EditText mSupplierPhoneEditText;
 
-    /** Boolean flag that keeps track of whether the product has been edited (true) or not (false) */
+    /**
+     * Boolean flag that keeps track of whether the product has been edited (true) or not (false)
+     */
     private boolean mProductHasChanged = false;
 
     /**
@@ -111,36 +127,36 @@ public class EditorActivity extends AppCompatActivity implements
         mSupplierNameEditText.setOnTouchListener(mTouchListener);
         mSupplierPhoneEditText.setOnTouchListener(mTouchListener);
 
-    //Product Quantity plus one
+        //Product Quantity plus one
 
-    Button plusOneQuantity = findViewById(R.id.productPlus);
-    final Button minOneQuantity = findViewById(R.id.productMin);
-    int qty = 0;
+        Button plusOneQuantity = findViewById(R.id.productPlus);
+        final Button minOneQuantity = findViewById(R.id.productMin);
+        int qty = 0;
         mQuantityEditText.setText(String.valueOf(qty));
-    //Set click listener on the increase button and increase the quantity
-    //according the adjustment factor, check for validation before changing data
+        //Set click listener on the increase button and increase the quantity
+        //according the adjustment factor, check for validation before changing data
         plusOneQuantity.setOnClickListener(new View.OnClickListener() {
-        @Override
-        public void onClick(View view) {
-            int newQuantity = Integer.parseInt(mQuantityEditText.getText().toString().trim());
-            mQuantityEditText.setText(String.valueOf(newQuantity + 1));
-        }
-    });
-        minOneQuantity.setOnClickListener(new View.OnClickListener() {
-        @Override
-        public void onClick(View view) {
-            int newQuantity = Integer.parseInt(mQuantityEditText.getText().toString().trim());
-            mQuantityEditText.setText(String.valueOf(newQuantity - 1));
-            if (newQuantity <= 1) {
-                minOneQuantity.setEnabled(false);
+            @Override
+            public void onClick(View view) {
+                int newQuantity = Integer.parseInt(mQuantityEditText.getText().toString().trim());
+                mQuantityEditText.setText(String.valueOf(newQuantity + 1));
             }
-        }
-    });
+        });
+        minOneQuantity.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                int newQuantity = Integer.parseInt(mQuantityEditText.getText().toString().trim());
+                mQuantityEditText.setText(String.valueOf(newQuantity - 1));
+                if (newQuantity <= 1) {
+                    minOneQuantity.setEnabled(false);
+                }
+            }
+        });
         if (mCurrentProductUri == null) {
             minOneQuantity.setVisibility(View.GONE);
             plusOneQuantity.setVisibility(View.GONE);
         }
-    //Set click listener on the button to call supplier
+        //Set click listener on the button to call supplier
         Button callSupplierButton = findViewById(R.id.callSupplier);
 
         callSupplierButton.setOnClickListener(new View.OnClickListener() {
@@ -153,9 +169,10 @@ public class EditorActivity extends AppCompatActivity implements
             }
         });
     }
-        /**
-         * Get user input from editor and save product into database.
-         */
+
+    /**
+     * Get user input from editor and save product into database.
+     */
     private void saveProduct() {
         // Read from input fields
         // Use trim to eliminate leading or trailing white space
@@ -181,7 +198,7 @@ public class EditorActivity extends AppCompatActivity implements
         ContentValues values = new ContentValues();
         values.put(ProductContract.ProductEntry.COLUMN_PRODUCT_NAME, productNameString);
         values.put(ProductContract.ProductEntry.COLUMN_PRODUCT_PRICE, priceString);
-        values.put(ProductContract.ProductEntry.COLUMN_PRODUCT_QUANTITY,quantityString);
+        values.put(ProductContract.ProductEntry.COLUMN_PRODUCT_QUANTITY, quantityString);
         values.put(ProductContract.ProductEntry.COLUMN_SUPPLIER_NAME, supplierNameString);
         values.put(ProductContract.ProductEntry.COLUMN_SUPPLIER_PHONE, supplierPhoneString);
 
@@ -191,28 +208,28 @@ public class EditorActivity extends AppCompatActivity implements
             // This is a NEW product, so insert a new product into the provider,
             // returning the content URI for the new product.
             Uri newUri = getContentResolver().insert(ProductContract.ProductEntry.CONTENT_URI, values);
-        //Check if the fields in the editor are blank and show corresponding toast message
+            //Check if the fields in the editor are blank and show corresponding toast message
 
-            if (TextUtils.isEmpty(productNameString)){
-                Toast.makeText(this, getString(R.string.empty_name), Toast.LENGTH_SHORT).show(); }
-                                else {
-                                    }
-            if (TextUtils.isEmpty(priceString)){
-            Toast.makeText(this, getString(R.string.empty_price), Toast.LENGTH_SHORT).show(); }
-                                else {
-                                    }
-            if ((TextUtils.isEmpty(quantityString))){
-            Toast.makeText(this, getString(R.string.empty_quantity), Toast.LENGTH_SHORT).show(); }
-                                else {
-                                    }
-            if (TextUtils.isEmpty(supplierNameString)){
-            Toast.makeText(this, getString(R.string.empty_supplier_name), Toast.LENGTH_SHORT).show(); }
-                                else {
-                                    }
-            if (TextUtils.isEmpty(supplierPhoneString)){
-            Toast.makeText(this, getString(R.string.empty_supplier_phone), Toast.LENGTH_SHORT).show(); }
-                                else {
-                                    }
+            if (TextUtils.isEmpty(productNameString)) {
+                Toast.makeText(this, getString(R.string.empty_name), Toast.LENGTH_SHORT).show();
+            } else {
+            }
+            if (TextUtils.isEmpty(priceString)) {
+                Toast.makeText(this, getString(R.string.empty_price), Toast.LENGTH_SHORT).show();
+            } else {
+            }
+            if ((TextUtils.isEmpty(quantityString))) {
+                Toast.makeText(this, getString(R.string.empty_quantity), Toast.LENGTH_SHORT).show();
+            } else {
+            }
+            if (TextUtils.isEmpty(supplierNameString)) {
+                Toast.makeText(this, getString(R.string.empty_supplier_name), Toast.LENGTH_SHORT).show();
+            } else {
+            }
+            if (TextUtils.isEmpty(supplierPhoneString)) {
+                Toast.makeText(this, getString(R.string.empty_supplier_phone), Toast.LENGTH_SHORT).show();
+            } else {
+            }
             // Show a toast message depending on whether or not the insertion was successful.
             if (newUri == null) {
                 // If the new content URI is null, then there was an error with insertion.
@@ -487,4 +504,4 @@ public class EditorActivity extends AppCompatActivity implements
         // Close the activity
         finish();
     }
-   }
+}

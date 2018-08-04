@@ -1,7 +1,10 @@
 package com.example.android.inventory;
+
+import android.content.ContentUris;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
+import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,11 +17,13 @@ import com.example.android.inventory.data.ProductContract;
 
 
 /**
-        * {@link ProductCursorAdapter} is an adapter for a list or grid view
-        * that uses a {@link Cursor} of product data as its data source. This adapter knows
-        * how to create list items for each row of product data in the {@link Cursor}.
-        */
+ * {@link ProductCursorAdapter} is an adapter for a list or grid view
+ * that uses a {@link Cursor} of product data as its data source. This adapter knows
+ * how to create list items for each row of product data in the {@link Cursor}.
+ */
 public class ProductCursorAdapter extends CursorAdapter {
+
+    private Context mContext;
 
     /**
      * Constructs a new {@link ProductCursorAdapter}.
@@ -28,6 +33,7 @@ public class ProductCursorAdapter extends CursorAdapter {
      */
     public ProductCursorAdapter(Context context, Cursor c) {
         super(context, c, 0 /* flags */);
+        mContext = context;
     }
 
     /**
@@ -70,13 +76,15 @@ public class ProductCursorAdapter extends CursorAdapter {
         // Read the products attributes from the Cursor for the current product
         String productName = cursor.getString(productNameColumnIndex);
         String price = cursor.getString(priceColumnIndex);
-        String quantity = cursor.getString(quantityColumnIndex);
+        final String quantity = cursor.getString(quantityColumnIndex);
 
         // Update the TextViews with the attributes for the current product
         nameTextView.setText(productName);
         priceTextView.setText(price);
         quantityTextView.setText(quantity);
+        final int id = cursor.getInt(cursor.getColumnIndex(ProductContract.ProductEntry._ID));
 
+        // Sale Button logic
         sale_Button.setText(R.string.sale);
 
         sale_Button.setOnClickListener(new View.OnClickListener() {
@@ -84,14 +92,16 @@ public class ProductCursorAdapter extends CursorAdapter {
             public void onClick(View view) {
                 int updatedQuantity = Integer.parseInt(quantityTextView.getText().toString().trim());
                 if (updatedQuantity > 0) {
-                    quantityTextView.setText(String.valueOf(updatedQuantity - 1));
-                }
-                if (updatedQuantity <= 0) {
+
+                    Uri newUri = ContentUris.withAppendedId(ProductContract.ProductEntry.CONTENT_URI, id);
+                    ContentValues values = new ContentValues();
+                    values.put(ProductContract.ProductEntry.COLUMN_PRODUCT_QUANTITY, updatedQuantity - 1);
+                    context.getContentResolver().update(newUri, values, null, null);
+                } else {
+
                     sale_Button.setEnabled(false);
                     Toast.makeText(context, "Out of stock", Toast.LENGTH_SHORT).show();
                 }
-                ContentValues values = new ContentValues();
-                values.put(ProductContract.ProductEntry.COLUMN_PRODUCT_QUANTITY, updatedQuantity);
             }
         });
 

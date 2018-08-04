@@ -1,4 +1,5 @@
 package com.example.android.inventory;
+
 import android.app.LoaderManager;
 import android.content.ContentUris;
 import android.content.ContentValues;
@@ -8,6 +9,7 @@ import android.content.Loader;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.Menu;
@@ -15,26 +17,29 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
-import android.support.design.widget.FloatingActionButton;
-import android.widget.Toast;
 
 import com.example.android.inventory.data.ProductContract;
 import com.example.android.inventory.data.ProductContract.ProductEntry;
 import com.example.android.inventory.data.ProductProvider;
-import com.example.android.inventory.R;
 
 /**
  * Displays list of products that were entered and stored in the app.
  */
 public class CatalogActivity extends AppCompatActivity implements
         LoaderManager.LoaderCallbacks<Cursor> {
-    /** Tag for the log messages */
+    /**
+     * Tag for the log messages
+     */
     public static final String LOG_TAG = ProductProvider.class.getSimpleName();
 
-    /** Identifier for the product data loader */
+    /**
+     * Identifier for the product data loader
+     */
     private static final int PRODUCT_LOADER = 0;
 
-    /** Adapter for the ListView */
+    /**
+     * Adapter for the ListView
+     */
     ProductCursorAdapter mCursorAdapter;
 
     @Override
@@ -89,35 +94,37 @@ public class CatalogActivity extends AppCompatActivity implements
         // Kick off the loader
         getLoaderManager().initLoader(PRODUCT_LOADER, null, this);
     }
+
     /**
      * Helper method to insert hardcoded pet data into the database. For debugging purposes only.
      */
     private void insertProduct() {
-    // Create a ContentValues object where column names are the keys,
-    // and my product test attributes are the dummy values.
-    ContentValues values = new ContentValues();
+        // Create a ContentValues object where column names are the keys,
+        // and my product test attributes are the dummy values.
+        ContentValues values = new ContentValues();
         values.put(ProductContract.ProductEntry.COLUMN_PRODUCT_NAME, "Mon livre");
         values.put(ProductContract.ProductEntry.COLUMN_PRODUCT_PRICE, 10);
         values.put(ProductContract.ProductEntry.COLUMN_PRODUCT_QUANTITY, 1);
         values.put(ProductContract.ProductEntry.COLUMN_SUPPLIER_NAME, "Mr X");
         values.put(ProductContract.ProductEntry.COLUMN_SUPPLIER_PHONE, "56 00 56 00 97");
 
-    // Insert a new row for my product test in the database, returning the ID of that new row.
-    // The first argument for db.insert() is the products table name.
-    // The second argument provides the name of a column in which the framework
-    // can insert NULL in the event that the ContentValues is empty (if
-    // this is set to "null", then the framework will not insert a row when
-    // there are no values).
-    // The third argument is the ContentValues object containing the info for my product test.
+        // Insert a new row for my product test in the database, returning the ID of that new row.
+        // The first argument for db.insert() is the products table name.
+        // The second argument provides the name of a column in which the framework
+        // can insert NULL in the event that the ContentValues is empty (if
+        // this is set to "null", then the framework will not insert a row when
+        // there are no values).
+        // The third argument is the ContentValues object containing the info for my product test.
 
-    // Use the {@link ProductEntry#CONTENT_URI} to indicate that we want to insert
-    // into the products database table.
-    // Receive the new content URI that will allow us to access "Mon livre" data in the future.
+        // Use the {@link ProductEntry#CONTENT_URI} to indicate that we want to insert
+        // into the products database table.
+        // Receive the new content URI that will allow us to access "Mon livre" data in the future.
 
-    Uri newUri = getContentResolver().insert(ProductEntry.CONTENT_URI, values);
+        Uri newUri = getContentResolver().insert(ProductEntry.CONTENT_URI, values);
 
         Log.e(LOG_TAG, "dummy values entered");
     }
+
     /**
      * Helper method to delete all products in the database.
      */
@@ -153,16 +160,16 @@ public class CatalogActivity extends AppCompatActivity implements
     @Override
     public Loader<Cursor> onCreateLoader(int i, Bundle bundle) {
 
-    // Define a projection that specifies which columns from the database
-            // you will actually use after this query.
-            String[] projection = {
-            ProductContract.ProductEntry._ID,
-            ProductContract.ProductEntry.COLUMN_PRODUCT_NAME,
-            ProductContract.ProductEntry.COLUMN_PRODUCT_PRICE,
-            ProductContract.ProductEntry.COLUMN_PRODUCT_QUANTITY,
-            ProductContract.ProductEntry.COLUMN_SUPPLIER_NAME,
-            ProductContract.ProductEntry.COLUMN_SUPPLIER_PHONE,
-    };
+        // Define a projection that specifies which columns from the database
+        // you will actually use after this query.
+        String[] projection = {
+                ProductContract.ProductEntry._ID,
+                ProductContract.ProductEntry.COLUMN_PRODUCT_NAME,
+                ProductContract.ProductEntry.COLUMN_PRODUCT_PRICE,
+                ProductContract.ProductEntry.COLUMN_PRODUCT_QUANTITY,
+                ProductContract.ProductEntry.COLUMN_SUPPLIER_NAME,
+                ProductContract.ProductEntry.COLUMN_SUPPLIER_PHONE,
+        };
 
         // This loader will execute the ContentProvider's query method on a background thread
         return new CursorLoader(this,   // Parent activity context
@@ -172,15 +179,16 @@ public class CatalogActivity extends AppCompatActivity implements
                 null,                   // No selection arguments
                 null);                  // Default sort order
     }
-        @Override
-        public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
-            // Update {@link Product CursorAdapter} with this new cursor containing updated product data
-            mCursorAdapter.swapCursor(data);
-        }
 
-        @Override
-        public void onLoaderReset(Loader<Cursor> loader) {
-            // Callback called when the data needs to be deleted
-            mCursorAdapter.swapCursor(null);
-        }
+    @Override
+    public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
+        // Update {@link Product CursorAdapter} with this new cursor containing updated product data
+        mCursorAdapter.swapCursor(data);
+    }
+
+    @Override
+    public void onLoaderReset(Loader<Cursor> loader) {
+        // Callback called when the data needs to be deleted
+        mCursorAdapter.swapCursor(null);
+    }
 }
