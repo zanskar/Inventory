@@ -136,7 +136,7 @@ public class EditorActivity extends AppCompatActivity implements
         final Button minOneQuantity = findViewById(R.id.productMin);
         final int qty = 0;
         mQuantityEditText.setText(String.valueOf(qty));
-        final int id = cursor.getInt(cursor.getColumnIndex(ProductContract.ProductEntry._ID));
+
         //Set click listener on the increase button and increase the quantity
         //according the adjustment factor, check for validation before changing data
         plusOneQuantity.setOnClickListener(new View.OnClickListener() {
@@ -144,10 +144,12 @@ public class EditorActivity extends AppCompatActivity implements
             public void onClick(View view) {
                 int newQuantity = Integer.parseInt(mQuantityEditText.getText().toString().trim());
                 mQuantityEditText.setText(String.valueOf(newQuantity + 1));
-                Uri newUri = ContentUris.withAppendedId(ProductContract.ProductEntry.CONTENT_URI, id);
-                ContentValues values = new ContentValues();
+                final ContentValues values = new ContentValues();
                 values.put(ProductContract.ProductEntry.COLUMN_PRODUCT_QUANTITY, newQuantity + 1);
-                mContext.getContentResolver().update(newUri, values, null, null);
+                int rowsAffected = getContentResolver().update(mCurrentProductUri, values, null, null);
+                if (rowsAffected == 0) {
+                    Toast.makeText(getApplicationContext(), getString(R.string.editor_update_product_failed), Toast.LENGTH_SHORT).show();
+                }
             }
         });
         minOneQuantity.setOnClickListener(new View.OnClickListener() {
@@ -155,12 +157,11 @@ public class EditorActivity extends AppCompatActivity implements
             public void onClick(View view) {
                 int newQuantity = Integer.parseInt(mQuantityEditText.getText().toString().trim());
                 mQuantityEditText.setText(String.valueOf(newQuantity - 1));
-                Uri newUri = ContentUris.withAppendedId(ProductContract.ProductEntry.CONTENT_URI, id);
-                ContentValues values = new ContentValues();
+                final ContentValues values = new ContentValues();
                 values.put(ProductContract.ProductEntry.COLUMN_PRODUCT_QUANTITY, newQuantity - 1);
-                mContext.getContentResolver().update(newUri, values, null, null);
-                if (newQuantity <= 1) {
-                    minOneQuantity.setEnabled(false);
+                int rowsAffected = getContentResolver().update(mCurrentProductUri, values, null, null);
+                if (rowsAffected == 0) {
+                    Toast.makeText(getApplicationContext(), getString(R.string.editor_update_product_failed), Toast.LENGTH_SHORT).show();
                 }
             }
         });
