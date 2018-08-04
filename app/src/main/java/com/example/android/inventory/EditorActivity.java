@@ -144,7 +144,7 @@ public class EditorActivity extends AppCompatActivity implements
             public void onClick(View view) {
                 int newQuantity = Integer.parseInt(mQuantityEditText.getText().toString().trim());
                 mQuantityEditText.setText(String.valueOf(newQuantity + 1));
-                Uri newUri = ContentUris.withAppendedId(ProductContract.ProductEntry.CONTENT_URI, _ID);
+                Uri newUri = ContentUris.withAppendedId(ProductContract.ProductEntry.CONTENT_URI, id);
                 ContentValues values = new ContentValues();
                 values.put(ProductContract.ProductEntry.COLUMN_PRODUCT_QUANTITY, newQuantity + 1);
                 mContext.getContentResolver().update(newUri, values, null, null);
