@@ -108,7 +108,6 @@
             android:id="@+id/productPlus"
             android:layout_width="@dimen/button"
             android:layout_height="@dimen/button"
-            android:onClick="plusOneQuantity"
             android:text="@string/plus"
             android:textAllCaps="false"
             android:textSize="@dimen/textSize" />
@@ -117,7 +116,6 @@
             android:id="@+id/productMin"
             android:layout_width="@dimen/button"
             android:layout_height="@dimen/button"
-            android:onClick="minOneQuantity"
             android:text="@string/minus"
             android:textAllCaps="false"
             android:textSize="@dimen/textSize" />
@@ -160,7 +158,6 @@
                 android:id="@+id/callSupplier"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:onClick="callSupplierButton"
                 android:layout_below="@id/edit_supplier_phone"
                 android:text="@string/call_supplier"
                 android:textAllCaps="false" />

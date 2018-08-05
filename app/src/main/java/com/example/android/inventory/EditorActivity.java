@@ -162,6 +162,10 @@ public class EditorActivity extends AppCompatActivity implements
                 int rowsAffected = getContentResolver().update(mCurrentProductUri, values, null, null);
                 if (rowsAffected == 0) {
                     Toast.makeText(getApplicationContext(), getString(R.string.editor_update_product_failed), Toast.LENGTH_SHORT).show();
+
+            } else {
+
+                Toast.makeText(getApplicationContext(), getString(R.string.sale_out), Toast.LENGTH_SHORT).show();
                 }
             }
         });
@@ -198,12 +202,12 @@ public class EditorActivity extends AppCompatActivity implements
 
         // Check if this is supposed to be a new product
         // and check if all the fields in the editor are blank
-        if (mCurrentProductUri == null &&
-                TextUtils.isEmpty(productNameString) && TextUtils.isEmpty(priceString) &&
+        if (TextUtils.isEmpty(productNameString) && TextUtils.isEmpty(priceString) &&
                 TextUtils.isEmpty(quantityString) && TextUtils.isEmpty(supplierNameString) && TextUtils.isEmpty(supplierPhoneString)) {
             // Since no fields were modified, we can return early without creating a new product.
             // No need to create ContentValues and no need to do any ContentProvider operations.
-            return;
+            Toast.makeText(getApplicationContext(), "No fields were filled", Toast.LENGTH_LONG).show();
+            finish();
         }
 
         // Create a ContentValues object where column names are the keys,
@@ -215,38 +219,43 @@ public class EditorActivity extends AppCompatActivity implements
         values.put(ProductContract.ProductEntry.COLUMN_SUPPLIER_NAME, supplierNameString);
         values.put(ProductContract.ProductEntry.COLUMN_SUPPLIER_PHONE, supplierPhoneString);
 
-
         // Determine if this is a new or existing product by checking if mCurrentProductUri is null or not
         if (mCurrentProductUri == null) {
-            // This is a NEW product, so insert a new product into the provider,
-            // returning the content URI for the new product.
-            Uri newUri = getContentResolver().insert(ProductContract.ProductEntry.CONTENT_URI, values);
+
             //Check if the fields in the editor are blank and show corresponding toast message
 
-            if ((TextUtils.isEmpty(productNameString)) || (TextUtils.isEmpty(priceString)) || ((TextUtils.isEmpty(quantityString))) || (TextUtils.isEmpty(supplierNameString)) || (TextUtils.isEmpty(supplierPhoneString)))
-             {
-                 Toast.makeText(this, getString(R.string.empty_field),
-                         Toast.LENGTH_SHORT).show();
-                 return;
-            }
-            // Show a toast message depending on whether or not the insertion was successful.
-            if (newUri == null) {
-                // If the new content URI is null, then there was an error with insertion.
-                Toast.makeText(this, getString(R.string.editor_insert_product_failed),
+            if ((TextUtils.isEmpty(productNameString)) || (TextUtils.isEmpty(priceString)) || (TextUtils.isEmpty(quantityString)) || (TextUtils.isEmpty(supplierNameString)) || (TextUtils.isEmpty(supplierPhoneString))) {
+                Toast.makeText(this, getString(R.string.empty_field),
                         Toast.LENGTH_SHORT).show();
+
             } else {
-                // Otherwise, the insertion was successful and we can display a toast.
-                Toast.makeText(this, getString(R.string.editor_insert_product_successful),
-                        Toast.LENGTH_SHORT).show();
+
+                // This is a NEW product, so insert a new product into the provider,
+                // returning the content URI for the new product.
+                Uri newUri = getContentResolver().insert(ProductContract.ProductEntry.CONTENT_URI, values);
+
+                // Show a toast message depending on whether or not the insertion was successful.
+                if (newUri == null) {
+                    // If the new content URI is null, then there was an error with insertion.
+                    Toast.makeText(this, getString(R.string.editor_insert_product_failed),
+                            Toast.LENGTH_SHORT).show();
+                } else {
+                    // Otherwise, the insertion was successful and we can display a toast.
+                    Toast.makeText(this, getString(R.string.editor_insert_product_successful),
+                            Toast.LENGTH_SHORT).show();
+
+                    // Exit activity
+                    finish();
+                }
             }
+
         } else {
             // Otherwise this is an EXISTING product, so update the product with content URI: mCurrentProductUri
             // and pass in the new ContentValues. Pass in null for the selection and selection args
             // because mCurrentProductUri will already identify the correct row in the database that
             // we want to modify.
 
-            if ((TextUtils.isEmpty(productNameString)) || (TextUtils.isEmpty(priceString)) || ((TextUtils.isEmpty(quantityString))) || (TextUtils.isEmpty(supplierNameString)) || (TextUtils.isEmpty(supplierPhoneString)))
-            {
+            if ((TextUtils.isEmpty(productNameString)) || (TextUtils.isEmpty(priceString)) || (TextUtils.isEmpty(quantityString)) || (TextUtils.isEmpty(supplierNameString)) || (TextUtils.isEmpty(supplierPhoneString))) {
                 Toast.makeText(this, getString(R.string.empty_field),
                         Toast.LENGTH_SHORT).show();
                 return;
@@ -263,6 +272,9 @@ public class EditorActivity extends AppCompatActivity implements
                 // Otherwise, the update was successful and we can display a toast.
                 Toast.makeText(this, getString(R.string.editor_update_product_successful),
                         Toast.LENGTH_SHORT).show();
+
+                // Exit activity
+                finish();
             }
         }
 
@@ -300,7 +312,6 @@ public class EditorActivity extends AppCompatActivity implements
                 // Save product to database
                 saveProduct();
                 // Exit activity
-                finish();
                 return true;
             // Respond to a click on the "Delete" menu option
             case R.id.action_delete:
